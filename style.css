@@ -565,7 +565,6 @@ body.light-theme .found-word {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    /* Şeffaflık ayarı burada yapıldı */
     background: radial-gradient(circle at center, rgba(var(--container-bg-rgb), 0.6) 0%, rgba(var(--container-bg-rgb), 0.3) 60%, rgba(var(--container-bg-rgb), 0) 100%);
     box-shadow: 0 8px 20px var(--shadow-color);
     display: flex;
@@ -579,7 +578,6 @@ body.light-theme .found-word {
     position: absolute;
     width: 65px;
     height: 65px;
-    /* Şeffaflık ayarı burada yapıldı */
     background-color: rgba(var(--container-bg-rgb), 0.5); /* Yarı şeffaf arka plan */
     border: 2px solid var(--primary-color); /* Çerçeve */
     border-radius: 50%;
@@ -702,7 +700,7 @@ body.light-theme .found-word {
     color: white;
     text-decoration: none;
     border-radius: var(--border-radius-md);
-    text-align: center;
+    text-align: left; /* Metnin sola hizalanmasını sağla */
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
@@ -854,6 +852,8 @@ input:checked + .slider:before {
     overflow-y: auto; /* Gerekirse kaydırma çubuğu */
     max-height: 70vh; /* Ekranın yüksekliğine göre ayarla */
     line-height: 1.6; /* Satır aralığı */
+    white-space: normal; /* Metnin normal şekilde sarılmasını sağla */
+    word-break: break-word; /* Uzun kelimelerin kırılmasını sağla */
 }
 
 .policy-text-container p {
