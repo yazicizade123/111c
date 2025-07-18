@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelime Harikası</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts - Poppins ve Inter eklendi -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme"> <!-- Varsayılan tema olarak dark-theme eklendi -->
+
+    <!-- Start Screen (Main Menu replacement) -->
+    <div id="start-screen" class="screen active">
+        <div class="screen-content">
+            <!-- Level başlığı için animasyon sınıfı eklendi -->
+            <h1 id="current-level-display" class="fade-in-up">Level 1</h1>
+            <!-- Oyna butonu için animasyon sınıfı eklendi -->
+            <button id="start-level-btn" class="btn fade-in-up delay-1">Oyna</button>
+            <!-- Ayarlar ikonu için animasyon sınıfı eklendi -->
+            <div id="settings-icon" class="fade-in-right delay-2">⚙️</div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <div class="screen-content">
+            <div class="top-bar">
+                <div id="timer">Süre: <span>60</span>s</div>
+                <div id="score-info">Puan: <span id="current-score">0</span> / <span id="target-score">200</span></div>
+                <!-- New exit button -->
+                <button id="exit-game-btn" class="btn-ingame">Çıkış</button>
+            </div>
+
+            <div id="found-words-container">
+                <h3>Bulunan Kelimeler</h3>
+                <div id="found-words-list">
+                    <!-- Found words will be added here with JS -->
+                </div>
+            </div>
+
+            <!-- current-word-display will always be present, but its content will be empty when no word is being formed -->
+            <div id="current-word-display"></div>
+
+            <div id="game-container">
+                <div id="letter-wheel-container">
+                    <div id="letter-wheel">
+                        <!-- Level letters will be added here with JS -->
+                        <!-- Shuffle button is now here with SVG icon -->
+                        <button id="shuffle-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shuffle">
+                                <path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-9.3c.9-1.3 2.6-1.9 4.1-1.4l2 .6"/>
+                                <path d="M21 16v3h-3"/>
+                                <path d="M21 8v-3h-3"/>
+                                <path d="M2 6h1.4c1.3 0 2.5.6 3.3 1.7l6.1 9.3c.9 1.3 2.6 1.9 4.1 1.4l2-.6"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <svg id="line-svg"></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settings-screen" class="screen">
+        <div class="screen-content">
+            <button class="back-btn">‹ Geri</button>
+            <h2>Ayarlar</h2>
+            <div class="settings-option">
+                <span>Tema</span>
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle-btn">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="settings-option">
+                <span>Sesler</span>
+                <label class="switch">
+                    <input type="checkbox" id="sound-toggle-btn">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="settings-section">
+                <h3>Bize Ulaşın</h3>
+                <p><a href="mailto:destek@kelimeharikasi.com">E-posta</a></p>
+                <p><a href="https://twitter.com/kelimeharikasi" target="_blank">Twitter </a></p>
+            </div>
+            <div class="settings-section">
+                <h3>Yasal</h3>
+                <!-- Gizlilik Politikası bağlantısı yeni ekrana yönlendirildi -->
+                <p><a href="#privacy-policy-screen" id="privacy-policy-link">Kullanım Şartları ve Gizlilik Politikası</a></p>
+            </div>
+             <div class="settings-section">
+                <h3>Bizi Değerlendir</h3>
+                <p><a href="#" target="_blank">Google Play'de Değerlendir</a></p>
+            </div>
+            <div class="settings-section">
+                <h3>Oyun Verileri</h3>
+                <p><button id="clear-progress-btn" class="btn">Tüm İlerlemeyi Sil</button></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Screen (Yeni Ekran) -->
+    <div id="privacy-policy-screen" class="screen">
+        <div class="screen-content">
+            <button class="back-btn" id="privacy-policy-back-btn">‹ Geri</button>
+            <h2>Gizlilik Politikası</h2>
+            <div class="policy-text-container">
+                <p>Biz, Şirket, veri sorumlusu olarak, bu gizlilik ve kişisel verilerin korunması politikası ile ziyaret etmekte olduğunuz İnternet sitesi kapsamında hangi kişisel verilerinizin hangi amaçlarla işleneceği, işlenen verilerin kimlerle ve hangi sebeplerle paylaşılabileceği, veri işleme yöntemimiz ve hukuki sebepleri ile; işlenen verilerinize ilişkin haklarınızın neler olduğu hususunda siz kullanıcılarımızı aydınlatmayı amaçlıyoruz.</p>
+                <!-- Daha fazla metin buraya eklenebilir -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Game End Modals -->
+    <div id="modal-overlay" class="hidden">
+        <div id="win-modal" class="modal hidden">
+            <h2>Tebrikler!</h2>
+            <p>Seviyeyi başarıyla tamamladın.</p>
+            <button id="next-level-btn" class="btn">Sıradaki Seviye</button>
+        </div>
+        <div id="lose-modal" class="modal hidden">
+            <h2>Süre Bitti!</h2>
+            <p>Üzgünüz, süren doldu.</p>
+            <button id="retry-btn" class="btn">Tekrar Dene</button>
+            <button id="back-to-menu-btn" class="btn">Ana Menü</button>
+        </div>
+        <!-- Onay Modalı -->
+        <div id="confirm-modal" class="modal hidden">
+            <h2>Emin Misiniz?</h2>
+            <p>Tüm ilerlemeniz silinecektir. Bu işlem geri alınamaz.</p>
+            <button id="confirm-yes-btn" class="btn">Evet, Sil</button>
+            <button id="confirm-no-btn" class="btn">İptal</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
