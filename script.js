@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const retryBtn = document.getElementById('retry-btn');
     if (!retryBtn) console.error('retryBtn elementi bulunamadı!');
     const backToMenuBtn = document.getElementById('back-to-menu-btn');
-    if (!backToMenuBtn) console.error('backToMenuBtn elementi bulunamadı!');
+    if (!backToMenuBtn) console.error('back-to-menu-btn elementi bulunamadı!');
 
     const privacyPolicyLink = document.getElementById('privacy-policy-link'); // Gizlilik Politikası bağlantısı
     if (!privacyPolicyLink) console.error('privacyPolicyLink elementi bulunamadı!');
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- GAME DATA ---
     const levels = [
         {
-            letters: "BALP",
+            letters: "ALP",
             targetScore: 60,
             initialTime: 90,
             backgroundImage: 'assets/background (1).webp'
@@ -1007,15 +1007,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const startDrag = (e) => {
-        const target = getLetterElementFromPoint(e.clientX, e.clientY);
-        if (!target) {
-            return;
+        // Dokunmatik olaylar için varsayılan davranışı hemen engelle
+        // Bu, mobil cihazlarda kaydırma/yakınlaştırma gibi istenmeyen etkileşimleri önler.
+        if (e.type === 'touchstart') {
+            e.preventDefault();
         }
 
-        e.preventDefault();
+        const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+        
+        const target = getLetterElementFromPoint(clientX, clientY);
+        if (!target) {
+            // Eğer bir hedef harf bulunamazsa ve bu bir fare olayı değilse, işlemi durdur.
+            // touchstart için preventDefault zaten çağrıldı.
+            if (e.type !== 'touchstart') {
+                return;
+            }
+        }
+
         isDragging = true;
-        selectLetter(target); // İlk harf seçildiğinde ses çalacak
-        console.log('Sürükleme harf üzerinde başlatıldı:', target.dataset.letter);
+        if (target) { // Sadece hedef harf bulunduysa seç
+            selectLetter(target); // İlk harf seçildiğinde ses çalacak
+            console.log('Sürükleme harf üzerinde başlatıldı:', target.dataset.letter);
+        } else {
+            console.log('Sürükleme başlatıldı ancak hedef harf bulunamadı.');
+        }
 
         document.addEventListener('mousemove', drag);
         document.addEventListener('mouseup', endDrag);
@@ -1025,7 +1041,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const drag = (e) => {
         if (!isDragging) return;
-        e.preventDefault();
+        e.preventDefault(); // Dokunmatik hareket sırasında da varsayılan davranışı engelle
         const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
         const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
         const target = getLetterElementFromPoint(clientX, clientY);
