@@ -23,7 +23,7 @@ body.dark-theme {
     --bg-color: #1A1A2E; /* Koyu Mor/Mavi */
     --text-color: #E0E0E0; /* Açık Gri */
     --primary-color: #BB86FC; /* Mor */
-    --secondary-color: #03DAC6; /* Turkuaz */
+    --secondary-color: #03DAC6; /* Cyan tone */
     --accent-color: #FF4C4C; /* Kırmızımsı Vurgu */
     --container-bg: #2E2E4A; /* Koyu Konteyner Rengi */
     --container-bg-rgb: 46, 46, 74; /* RGB değeri */
@@ -689,18 +689,19 @@ body.light-theme .found-word {
 }
 .settings-section p {
     margin: 5px 0;
+    width: 100%; /* p elementinin de tam genişlik almasını sağla */
 }
 /* Ayarlar bölümündeki bağlantılar için buton stili */
 .settings-section a {
     display: block; /* Tam genişlik kaplamasını sağlar */
     width: 100%;
-    padding: 12px 15px;
+    padding: 12px 15px; /* Daha küçük padding, özellikle mobil için */
     margin-top: 10px;
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); /* Gradient arka plan */
     color: white;
     text-decoration: none;
     border-radius: var(--border-radius-md);
-    text-align: left; /* Metnin sola hizalanmasını sağla */
+    text-align: center; /* Metnin ortalanmasını sağla */
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
@@ -708,6 +709,8 @@ body.light-theme .found-word {
     pointer-events: auto; /* Tıklamaları etkinleştir */
     white-space: normal; /* Metnin normal şekilde sarılmasını sağla */
     word-break: break-word; /* Uzun kelimelerin kırılmasını sağla */
+    font-size: 1em; /* Varsayılan font boyutu */
+    box-sizing: border-box; /* Padding'in genişliğe dahil olmasını sağla */
 }
 .settings-section a:hover {
     transform: translateY(-2px);
@@ -936,6 +939,11 @@ input:checked + .slider:before {
     }
     .modal p {
         font-size: 1em;
+    }
+    /* Ayarlar bölümündeki bağlantılar için mobil uyumluluk */
+    .settings-section a {
+        padding: 8px 10px; /* Daha küçük ekranlar için daha az padding */
+        font-size: 0.9em; /* Daha küçük ekranlar için daha küçük font boyutu */
     }
 }
 
