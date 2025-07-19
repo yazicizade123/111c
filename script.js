@@ -823,9 +823,6 @@ document.addEventListener('DOMContentLoaded', () => {
             positioningRadius = 105; // 6 veya daha fazla harf için varsayılan, biraz daha dışarıda
         }
 
-        // setTimeout'u kaldırıyoruz çünkü showScreen callback'i zaten doğru zamanlamayı sağlıyor
-        // Eğer yine de bir gecikmeye ihtiyaç duyulursa, buraya ekleyebiliriz.
-        // Örneğin: setTimeout(() => { ... }, 50);
         if (!letterWheel) {
             console.error('Hata: letterWheel elementi bulunamadığı için harf çarkı oluşturulamadı.');
             return;
@@ -1007,8 +1004,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const startDrag = (e) => {
-        // Dokunmatik olaylar için varsayılan davranışı hemen engelle
-        // Bu, mobil cihazlarda kaydırma/yakınlaştırma gibi istenmeyen etkileşimleri önler.
+        // **ÖNEMLİ:** Eğer tıklanan element shuffle butonu veya içindeki bir element ise, sürükleme mantığını başlatma.
+        if (shuffleBtn && (e.target === shuffleBtn || shuffleBtn.contains(e.target))) {
+            // Shuffle butonunun kendi click olayını işlemesine izin ver.
+            // Bu durumda sürükleme mantığını başlatmayız.
+            return;
+        }
+
+        // Dokunmatik olaylar için varsayılan davranışı engelle (kaydırma/yakınlaştırma gibi)
+        // Sadece harf çarkı üzerinde bir sürükleme başlatıldığında bu önemlidir.
         if (e.type === 'touchstart') {
             e.preventDefault();
         }
@@ -1018,20 +1022,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const target = getLetterElementFromPoint(clientX, clientY);
         if (!target) {
-            // Eğer bir hedef harf bulunamazsa ve bu bir fare olayı değilse, işlemi durdur.
-            // touchstart için preventDefault zaten çağrıldı.
-            if (e.type !== 'touchstart') {
-                return;
-            }
+            // Eğer bir hedef harf bulunamazsa, sürükleme başlatma.
+            return;
         }
 
         isDragging = true;
-        if (target) { // Sadece hedef harf bulunduysa seç
-            selectLetter(target); // İlk harf seçildiğinde ses çalacak
-            console.log('Sürükleme harf üzerinde başlatıldı:', target.dataset.letter);
-        } else {
-            console.log('Sürükleme başlatıldı ancak hedef harf bulunamadı.');
-        }
+        selectLetter(target); // İlk harf seçildiğinde ses çalacak
+        console.log('Sürükleme harf üzerinde başlatıldı:', target.dataset.letter);
 
         document.addEventListener('mousemove', drag);
         document.addEventListener('mouseup', endDrag);
