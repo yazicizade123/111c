@@ -542,7 +542,8 @@ body.light-theme .found-word {
 
 #game-container {
     display: flex;
-    align-items: center;
+    flex-direction: column; /* Dikey hizalama için column */
+    align-items: center; /* Yatayda ortala */
     justify-content: center;
     width: 100%;
     margin: 20px 0;
@@ -629,12 +630,10 @@ body.light-theme .found-word {
     opacity: 0.8;
 }
 
-/* New Shuffle Button Style */
+/* Shuffle Button Style - Konumu güncellendi */
 #shuffle-btn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    /* position: absolute; kaldırıldı */
+    /* top, left, transform kaldırıldı */
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -651,10 +650,11 @@ body.light-theme .found-word {
     z-index: 15;
     text-shadow: 0 0 8px var(--primary-color);
     pointer-events: auto; /* Tıklamaları etkinleştir */
+    margin-top: 20px; /* Harf çarkının altına boşluk ekle */
 }
 
 #shuffle-btn:hover {
-    transform: translate(-50%, -50%) scale(1.05);
+    transform: scale(1.05); /* Sadece scale transformu kaldı */
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     color: white;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
@@ -930,6 +930,7 @@ input:checked + .slider:before {
         width: 60px;
         height: 60px;
         font-size: 1.8em;
+        margin-top: 15px; /* Mobil için de boşluk ayarla */
     }
     .modal {
         padding: 25px;
