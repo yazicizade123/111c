@@ -1005,16 +1005,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const startDrag = (e) => {
         // **ÖNEMLİ:** Eğer tıklanan element shuffle butonu veya içindeki bir element ise, sürükleme mantığını başlatma.
+        // Bu durumda, touchstart için preventDefault'u çağırmıyoruz, böylece butonun click olayı tetiklenebilir.
         if (shuffleBtn && (e.target === shuffleBtn || shuffleBtn.contains(e.target))) {
-            // Shuffle butonunun kendi click olayını işlemesine izin ver.
-            // Bu durumda sürükleme mantığını başlatmayız.
             return;
         }
 
         // Dokunmatik olaylar için varsayılan davranışı engelle (kaydırma/yakınlaştırma gibi)
         // Sadece harf çarkı üzerinde bir sürükleme başlatıldığında bu önemlidir.
         if (e.type === 'touchstart') {
-            e.preventDefault();
+            e.preventDefault(); 
         }
 
         const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
